@@ -17,7 +17,7 @@
     "debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
   "keywords": [],
-  "author": "Michelle Morin, Patrick Kille, Zakkrey Short, Joseph @Joseph Wangemann",
+  "author": "Michelle Morin, Patrick Kille, Zakkrey Short, Joseph Wangemann",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.6.4",

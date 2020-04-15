@@ -10,7 +10,7 @@ _This RPG allows users to simulate being part of the hysteria surrounding prepar
 
 ## Specification user stories:
 
-* Users are able to create a character with a name, hygiene level (health), food supply level, toilet paper count (currency), single doctor token
+* Users are able to create a character with a hygiene level (health), food supply level, toilet paper count (currency), single doctor token
   - users can trade toilet paper for food
   - users can trade toilet paper for items needed to obtain pet and/or garden
 * Users have to accomplish different missions
