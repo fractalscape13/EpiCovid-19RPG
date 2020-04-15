@@ -69,5 +69,23 @@ describe('modifications to tp supply', () => {
     const seventhPlayer = storeState(initialValues);
     const playerBoughtTp = seventhPlayer(buyTpSupply);
     expect(playerBoughtTp.tpSupply).toEqual(6);
-  })
-})
+  });
+
+  test('should decrement tp supply by 5', () => {
+    const eighthPlayer = storeState(initialValues);
+    const playerSoldTpForDocVisit = eighthPlayer(sellTpForDoctor);
+    expect(playerSoldTpForDocVisit.tpSupply).toEqual(0);
+  });
+
+  test('should decrement tp by 1', () => {
+    const ninthPlayer = storeState(initialValues);
+    const playerDailyUseOfTp = ninthPlayer(dailyUseOfTp);
+    expect(playerDailyUseOfTp.tpSupply).toEqual(4);
+  });
+
+  test('should decrement tp supply by 15', () => {
+    const tenthPlayer = storeState({ hygiene: 10, foodSupply: 5, tpSupply: 15, doctorAllowance: true });
+    const playerTradedTpForBidet = tenthPlayer(tradeForBidet);
+    expect(playerTradedTpForBidet.tpSupply).toEqual(0);
+  });
+});
