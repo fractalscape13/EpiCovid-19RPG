@@ -15,8 +15,6 @@ export const changeState =
       [prop] : (state[prop] || 0) + value
     });
   
-
-
 // export const changeStringState = (prop) => {
 //   return (value) => {
 //     return (state) => ({
@@ -89,3 +87,11 @@ export const adoptPet = changeNumericalandStringProperty("tpSupply")(-5)("pet")(
 export const buildGarden = changeNumericalandStringProperty("tpSupply")(-5)("garden")(true);
 export const buyTrowel = changeNumericalandStringProperty("tpSupply")(-3)("trowel")(true);
 export const buyLeash = changeNumericalandStringProperty("tpSupply")(-3)("leash")(true);
+
+export function sunRise(updatedPlayerObj) {
+  if(updatedPlayerObj.bidet === true && updatedPlayerObj.garden === true && updatedPlayerObj.pet === true){
+    return "YOU WIN";
+  } else if (updatedPlayerObj.hygiene <= 1 && updatedPlayerObj.doctorAllowance === false) {
+    return "YOU LOSE";
+  }
+}

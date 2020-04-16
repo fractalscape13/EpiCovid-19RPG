@@ -1,4 +1,4 @@
-import { visitDoctorAndGetBetter, goShower, changeState, noShower, groceryRun, assignName, storeState, myPlayer, visitDoctorAndUseAllowance, initialValues, buyFood, consumeFood, buyTpSupply, sellTpForDoctor, dailyUseOfTp, tradeForBidet} from './../src/game.js';
+import { visitDoctorAndGetBetter, goShower, changeState, noShower, groceryRun, assignName, storeState, myPlayer, visitDoctorAndUseAllowance, initialValues, buyFood, consumeFood, buyTpSupply, sellTpForDoctor, dailyUseOfTp, tradeForBidet, nextDay, buyBidet, adoptPet, buildGarden, buyTrowel, buyLeash, changeNumericalandStringProperty, sunRise } from './../src/game.js';
 
 describe('hygiene modifications', () => {
 
@@ -87,5 +87,29 @@ describe('modifications to tp supply', () => {
     const tenthPlayer = storeState({ hygiene: 10, foodSupply: 5, tpSupply: 15, doctorAllowance: true });
     const playerTradedTpForBidet = tenthPlayer(tradeForBidet);
     expect(playerTradedTpForBidet.tpSupply).toEqual(0);
+  });
+});
+
+describe('functions that update inventory', () => {
+
+    test('should decrement tpsupply by 20 and update bidet to true', () => {
+      const eleventhPlayer = storeState({tpSupply: 20, bidet: false});
+      const playerBoughtBidet = eleventhPlayer(buyBidet);
+      expect(playerBoughtBidet.bidet).toEqual(true);
+      expect(playerBoughtBidet.tpSupply).toEqual(0);
+    });
+});
+
+describe('win condition check', () => {
+  test('should return win message', () => {
+    const winningPlayer = storeState({tpSupply: 20, bidet: true, pet: true, garden: false});
+    const winner = winningPlayer(buildGarden);
+    expect(sunRise(winner)).toEqual("YOU WIN");
+  });
+
+  test('should return whether player loses game', () => {
+    const losingPlayer = storeState({ doctorAllowance: false, hygiene: 2 });
+    const loser = losingPlayer(noShower);
+    expect(sunRise(loser)).toEqual("YOU LOSE");
   });
 });
