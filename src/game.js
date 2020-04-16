@@ -33,6 +33,19 @@ export const changeStringState =
         [prop] : value
       });
 
+export const changeNumericalandStringProperty = (numProp) => {
+  return (numVal) => {
+    return(stringProp) => {
+      return(stringVal) => {
+        return(state) => ({
+          ...state,
+          [numProp] : (state[numProp] || 0) + numVal,
+          [stringProp] : stringVal
+        });
+      }
+    }
+  }
+}
 
 export const storeState = (initialValues) => {
   let currentState = initialValues;
@@ -42,7 +55,6 @@ export const storeState = (initialValues) => {
     return newState;
   }
 }
-
 
 // Initial player values:
 export const initialValues = { hygiene: 10, foodSupply: 5, tpSupply: 5, doctorAllowance: true, bidet: false, pet: false, garden: false, trowel: false, leash: false, dayCount: 0 };
@@ -72,8 +84,8 @@ export const tradeForBidet = changeState("tpSupply")(-15);
 export const nextDay = changeState("dayCount")(1);
 
 // functions that update inventory:
-buyBidet
-adoptPet
-buildGarden
-buyTrowel
-buyLeash
+export const buyBidet = changeNumericalandStringProperty("tpSupply")(-20)("bidet")(true);
+export const adoptPet = changeNumericalandStringProperty("tpSupply")(-5)("pet")(true);
+export const buildGarden = changeNumericalandStringProperty("tpSupply")(-5)("garden")(true);
+export const buyTrowel = changeNumericalandStringProperty("tpSupply")(-3)("trowel")(true);
+export const buyLeash = changeNumericalandStringProperty("tpSupply")(-3)("leash")(true);
