@@ -1,4 +1,4 @@
-import { visitDoctorAndGetBetter, goShower, changeState, noShower, groceryRun, assignName, storeState, myPlayer, visitDoctorAndUseAllowance, initialValues, buyFood, consumeFood, buyTpSupply, sellTpForDoctor, dailyUseOfTp, tradeForBidet} from './../src/game.js';
+import { goShower, noShower, groceryRun, assignName, storeState, initialValues, consumeFood, buyTpSupply, dailyUseOfTp, buyBidet, buildGarden, sunRise, visitDoctor } from './../src/game.js';
 
 describe('hygiene modifications', () => {
 
@@ -18,6 +18,7 @@ describe('hygiene modifications', () => {
     const fourthPlayer = storeState(initialValues);
     const playerWithGroceries = fourthPlayer(groceryRun);
     expect(playerWithGroceries.hygiene).toEqual(8);
+    expect(playerWithGroceries.foodSupply).toEqual(9);
   });
 });
 
@@ -33,28 +34,16 @@ describe('assignName', () => {
 
 describe('doctor visits', () => {
 
-  test('should test whether player can get sick', () => {
-    const sickInitialValues = {hygiene: 1, foodSupply: 5, tpSupply: 5, doctorAllowance: true};
-    const sickPlayer = storeState(sickInitialValues);
-    const recoveredPlayer = sickPlayer(visitDoctorAndGetBetter);
+  test('should change all properties related to visiting doctor', () => {
+    const sickPlayer = storeState({hygiene: 1, foodSupply: 5, tpSupply: 5, doctorAllowance: true});
+    const recoveredPlayer = sickPlayer(visitDoctor);
+    expect(recoveredPlayer.tpSupply).toEqual(0);
+    expect(recoveredPlayer.doctorAllowance).toEqual(false);
     expect(recoveredPlayer.hygiene).toEqual(11);
-  });
-  
-  test('should change doctor availability from true to false', () => {
-    const sickValues = {hygiene: 1, foodSupply: 5, tpSupply: 5, doctorAllowance: true};
-    const newSickPlayer = storeState(sickValues);
-    const recoveredPlayerVisitedDoctor = newSickPlayer(visitDoctorAndUseAllowance);
-    expect(recoveredPlayerVisitedDoctor.doctorAllowance).toEqual(false);
   });
 });
 
 describe('modifications to food supply', () => {
-
-  test('should increment food supply by 4', () => {
-    const fifthPlayer = storeState(initialValues);
-    const playerBoughtFood = fifthPlayer(buyFood);
-    expect(playerBoughtFood.foodSupply).toEqual(9);
-  });
 
   test('should decrement food supply by 1', () => {
     const sixthPlayer = storeState(initialValues);
@@ -71,21 +60,33 @@ describe('modifications to tp supply', () => {
     expect(playerBoughtTp.tpSupply).toEqual(6);
   });
 
-  test('should decrement tp supply by 5', () => {
-    const eighthPlayer = storeState(initialValues);
-    const playerSoldTpForDocVisit = eighthPlayer(sellTpForDoctor);
-    expect(playerSoldTpForDocVisit.tpSupply).toEqual(0);
-  });
-
   test('should decrement tp by 1', () => {
     const ninthPlayer = storeState(initialValues);
     const playerDailyUseOfTp = ninthPlayer(dailyUseOfTp);
     expect(playerDailyUseOfTp.tpSupply).toEqual(4);
   });
+});
 
-  test('should decrement tp supply by 15', () => {
-    const tenthPlayer = storeState({ hygiene: 10, foodSupply: 5, tpSupply: 15, doctorAllowance: true });
-    const playerTradedTpForBidet = tenthPlayer(tradeForBidet);
-    expect(playerTradedTpForBidet.tpSupply).toEqual(0);
+describe('functions that update inventory', () => {
+
+    test('should decrement tpsupply by 20 and update bidet to true', () => {
+      const eleventhPlayer = storeState({tpSupply: 20, bidet: false});
+      const playerBoughtBidet = eleventhPlayer(buyBidet);
+      expect(playerBoughtBidet.bidet).toEqual(true);
+      expect(playerBoughtBidet.tpSupply).toEqual(0);
+    });
+});
+
+describe('win condition check', () => {
+  test('should return win message', () => {
+    const winningPlayer = storeState({tpSupply: 20, bidet: true, pet: true, garden: false});
+    const winner = winningPlayer(buildGarden);
+    expect(sunRise(winner)).toEqual("YOU WIN");
+  });
+
+  test('should return whether player loses game', () => {
+    const losingPlayer = storeState({ doctorAllowance: false, hygiene: 2 });
+    const loser = losingPlayer(noShower);
+    expect(sunRise(loser)).toEqual("YOU LOSE");
   });
 });
