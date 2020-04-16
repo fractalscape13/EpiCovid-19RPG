@@ -7,7 +7,7 @@
 //   }
 // }
 
-export const changeState = 
+const changeState = 
   prop => 
     value => 
       state => ({
@@ -23,7 +23,8 @@ export const changeState =
 //     })
 //   }
 // }
-export const changeStringState = 
+
+const changeStringState = 
   prop => 
     value => 
       state => ({
@@ -31,52 +32,38 @@ export const changeStringState =
         [prop] : value
       });
 
-export const changeNumericalandStringProperty = (numProp) => {
-  return (numVal) => {
-    return(stringProp) => {
-      return(stringVal) => {
-        return(state) => ({
+const changeNumericalandStringProperty = numProp => 
+  numVal => 
+    stringProp => 
+      stringVal => 
+        state => ({
           ...state,
           [numProp] : (state[numProp] || 0) + numVal,
           [stringProp] : stringVal
         });
-      }
-    }
-  }
-}
 
-const changeTwoNumberProps = (numProp1) => {
-  return (numVal1) => {
-    return (numProp2) => {
-      return (numVal2) => {
-        return (state) => ({
+const changeTwoNumberProps = numProp1 => 
+  numVal1 => 
+    numProp2 => 
+      numVal2 => 
+        state => ({
           ...state,
           [numProp1] : (state[numProp1] || 0) + numVal1,
           [numProp2] : (state[numProp2] || 0) + numVal2
         });
-      }
-    }
-  }
-}
 
-const changeTwoNumberAndOneStringProperties = (numProp1) => {
-  return (numVal1) => {
-    return (numProp2) => {
-      return (numVal2) => {
-        return (stringProp) => {
-          return (stringVal) => {
-            return (state) => ({
+const changeTwoNumberAndOneStringProperties = numProp1 => 
+  numVal1 => 
+    numProp2 => 
+      numVal2 => 
+        stringProp => 
+          stringVal => 
+            state => ({
               ...state,
               [numProp1] : (state[numProp1] || 0) + numVal1,
               [numProp2] : (state[numProp2] || 0) + numVal2,
               [stringProp] : stringVal
             });
-          }
-        }
-      }
-    }
-  }
-}
 
 export const storeState = (initialValues) => {
   let currentState = initialValues;
