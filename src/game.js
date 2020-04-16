@@ -1,20 +1,38 @@
-export const changeState = (prop) => {
-  return (value) => {
-    return (state) => ({
+// export const changeState = (prop) => {
+//   return (value) => {
+//     return (state) => ({
+//       ...state,
+//       [prop] : (state[prop] || 0) + value
+//     })
+//   }
+// }
+
+export const changeState = 
+  prop => 
+    value => 
+      state => ({
       ...state,
       [prop] : (state[prop] || 0) + value
-    })
-  }
-}
+    });
+  
 
-export const changeStringState = (prop) => {
-  return (value) => {
-    return (state) => ({
-      ...state,
-      [prop] : value
-    })
-  }
-}
+
+// export const changeStringState = (prop) => {
+//   return (value) => {
+//     return (state) => ({
+//       ...state,
+//       [prop] : value
+//     })
+//   }
+// }
+export const changeStringState = 
+  prop => 
+    value => 
+      state => ({
+        ...state,
+        [prop] : value
+      });
+
 
 export const storeState = (initialValues) => {
   let currentState = initialValues;
@@ -25,9 +43,9 @@ export const storeState = (initialValues) => {
   }
 }
 
-// Initial player values:
-export const initialValues = { hygiene: 10, foodSupply: 5, tpSupply: 5, doctorAllowance: true };
 
+// Initial player values:
+export const initialValues = { hygiene: 10, foodSupply: 5, tpSupply: 5, doctorAllowance: true, bidet: false, pet: false, garden: false, trowel: false, leash: false, dayCount: 0 };
 // Assign player a name:
 export const assignName = changeStringState("name");
 
@@ -49,3 +67,13 @@ export const buyTpSupply = changeState("tpSupply")(1);
 export const sellTpForDoctor = changeState("tpSupply")(-5);
 export const dailyUseOfTp = changeState("tpSupply")(-1);
 export const tradeForBidet = changeState("tpSupply")(-15);
+
+// increment day count:
+export const nextDay = changeState("dayCount")(1);
+
+// functions that update inventory:
+buyBidet
+adoptPet
+buildGarden
+buyTrowel
+buyLeash
